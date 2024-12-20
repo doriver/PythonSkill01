@@ -15,7 +15,7 @@ from bs4 import BeautifulSoup
 from time import sleep
 
 #기타 라이브러리
-import pandas as pd
+import pandas as pd 
 # 날짜를 변환하는 함수 추가
 def parse_date(date_str):
     try:

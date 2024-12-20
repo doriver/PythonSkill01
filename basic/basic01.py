@@ -9,3 +9,8 @@ for lang in languages :
         print("%6s need compiler" % lang)
     else:
         print("should not reach here")
+
+                    # enumerate는 각 요소와 함께 해당 요소의 인덱스를 반환
+for idx, language in enumerate(languages, start=1):
+    print(f"{idx}. {language}")
+    # f-string: 문자열 포매팅 방법 중 하나로, 중괄호 {} 안에 변수나 표현식을 삽입할 수 있다.

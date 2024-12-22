@@ -11,6 +11,10 @@ for lang in languages :
         print("should not reach here")
 
                     # enumerate는 각 요소와 함께 해당 요소의 인덱스를 반환
-for idx, language in enumerate(languages, start=1):
+for idx, language in enumerate(languages, start=1): # 1 ~ 4
     print(f"{idx}. {language}")
     # f-string: 문자열 포매팅 방법 중 하나로, 중괄호 {} 안에 변수나 표현식을 삽입할 수 있다.
+
+
+for idx, language in enumerate(languages, start=3): # 3 ~ 6으로 4개 다 출력되네
+    print(f"{idx}. {language}")

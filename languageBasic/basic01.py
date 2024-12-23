@@ -18,3 +18,6 @@ for idx, language in enumerate(languages, start=1): # 1 ~ 4
 
 for idx, language in enumerate(languages, start=3): # 3 ~ 6으로 4개 다 출력되네
     print(f"{idx}. {language}")
+
+for i in range(4): # 0 ~ 3
+    print(i)

@@ -18,4 +18,27 @@ sel02 = sel01[1]
 sel03 = sel02.find_elements(By.XPATH, './div')
 print(len(sel03))
 
+postSel = sel03[1]
+commentSel = sel03[4]
+postListSel = sel03[5]
 
+title = postSel.find_element(By.CSS_SELECTOR, "h1").text
+writer = postSel.find_element(By.CSS_SELECTOR, "div.mb-8.flex a.text-gray-900").text
+writerLink = postSel.find_element(By.CSS_SELECTOR, "div.mb-8.flex a.text-gray-900").get_attribute("href")
+content = postSel.find_element(By.CSS_SELECTOR, "div.my-6.text-sm.text-gray-700 div.ProseMirror.remirror-editor").text
+
+like = postSel.find_elements(By.CSS_SELECTOR, "div.flex.items-center.space-x-1 > div.inline-flex span.-ml-2")
+likes = like[0].text
+disLikes = like[1].text
+
+commentList = commentSel.find_elements(By.CSS_SELECTOR, "div.my-8 > ul.divide-y > li")
+comment = commentList[0]
+commentWriter = comment.find_element(By.CSS_SELECTOR, "div.flex.items-center a.text-gray-900").text
+commentWriterUrl = comment.find_element(By.CSS_SELECTOR, "div.flex.items-center a.text-gray-900").get_attribute("href")
+commentContent = comment.find_element(By.CSS_SELECTOR, "div.flex div.ProseMirror.remirror-editor.remirror-a11y-dark").text
+
+lines.append({
+    "title": title, "writer": writer, "content": content, "likes": likes, "disLikes": disLikes
+    , "commentWriter": commentWriter, "commentContent": commentContent
+})
+print(lines)

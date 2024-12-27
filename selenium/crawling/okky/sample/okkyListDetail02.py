@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import pandas as pd
 import time
+import random
 
 driver = webdriver.Chrome()
 
@@ -12,7 +13,7 @@ lines = [] # 여기에 데이터들 넣을꺼
 for i in range(10): # 페이지당 글 20개
     try:
         driver.get("https://okky.kr/community?page=1")
-        time.sleep(4)
+        time.sleep(2 + random.random())
 
         results = driver.find_element(By.CSS_SELECTOR, "div.overflow-hidden > ul.divide-y")
         list = results.find_elements(By.XPATH, "//li[contains(@class, 'py-3.5')]")
@@ -38,9 +39,9 @@ for i in range(10): # 페이지당 글 20개
 
         # detail로 이동
         driver.get(target.get_attribute("href"))
-        time.sleep(2)
+        time.sleep(1 + random.random())
         # 본문내용
-        content = driver.find_element(By.CSS_SELECTOR, "div.mb-14.mt-8.w-full > div.my-6.text-sm.text-gray-700 div.ProseMirror.remirror-editor").text.strip()
+        content = driver.find_element(By.CSS_SELECTOR, "div.mb-14.mt-8.w-full > div.my-6.text-sm.text-gray-700 div.ProseMirror.remirror-editor").text.strip().replace('\r', '\n')
         
         lines.append({
             'writer': writer, 'title': title, 'views': views, 'likes': likes, 'comments':comments,'content': content
@@ -50,4 +51,4 @@ for i in range(10): # 페이지당 글 20개
 
 df = pd.DataFrame(lines)
 
-df.to_csv(r"D:\pythonCode01\crawlingFile\okkySample01.csv",encoding ='utf8',index = False)
+df.to_csv(r"D:\pythonCrawling\crawlingFile\okkySample02.csv",encoding ='utf8',index = False)

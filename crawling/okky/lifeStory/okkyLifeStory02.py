@@ -1,4 +1,5 @@
-# okky - 커뮤니티 - 사는얘기 완성본
+# okky - 커뮤니티 - 사는얘기
+# 페이지 넘어가면서 크롤링 하는거
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -7,12 +8,13 @@ import random
 import time
 
 driver = webdriver.Chrome()
+# driver.implicitly_wait(10) # 쓰기 좀 조심스러움
 lines = [] # 여기에 데이터들 넣을꺼
         
-driver.get("https://okky.kr/articles/1523346?topic=life&page=2")
-time.sleep(3)
+driver.get("https://okky.kr/articles/1523636?topic=life&page=1")
+time.sleep(2 + random.random())
 
-for i in range(20):
+for i in range(5):
     try: # post 크롤링하는거 와야함
         sel01 = driver.find_elements(By.CSS_SELECTOR, "div.w-full.min-w-0.flex-auto > div.min-w-0.flex-auto > div")
         sel02 = sel01[1]
@@ -84,10 +86,9 @@ for i in range(20):
         selected = postListSel.find_element(By.CSS_SELECTOR, "div > div > div > ul > li.bg-gray-100")
         nextPostIndex = postList.index(selected) + 1
         print(f"nextPostIndex : {nextPostIndex}")
-        nextPostLink = postList[nextPostIndex].find_element(By.CSS_SELECTOR, "div > a.font-normal").get_attribute("href")
-
         if nextPostIndex > 19: break
-
+        
+        nextPostLink = postList[nextPostIndex].find_element(By.CSS_SELECTOR, "div > a.font-normal").get_attribute("href")
         driver.get(nextPostLink) # 다음post로 이동완료
         time.sleep(1 + random.random())
 
@@ -97,4 +98,4 @@ for i in range(20):
 
 # csv파일로 저장
 df = pd.DataFrame(lines)
-df.to_csv(r"D:\pythonCrawling\crawlingFile\interimReport\okkyData02.csv",encoding ='utf8',index = False)
+df.to_csv(r"D:\pythonCrawling\data\crawlingFile\okky\okkyLife01.csv",encoding ='utf8',index = False)

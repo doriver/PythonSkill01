@@ -13,6 +13,8 @@ json_data = '''
 }
 '''
 # JSON 파일을 읽을 때는 json.load(파일 객체)를 사용, 딕셔너리 자료형을 JSON 파일로 생성할 때는 다음처럼 json.dump(딕셔너리, 파일 객체)를 사용
+# load, dump뒤에 s붙여야 문자열 다루는거임  아니면 파일을 다루는거
+
 # json.loads() : json데이터 파징
 json_obj = json.loads(json_data)
 

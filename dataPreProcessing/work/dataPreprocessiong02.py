@@ -4,8 +4,27 @@
 import pandas as pd
 import json
 
-csvRead = pd.read_csv(r"D:\pythonCrawling\data\crawlingFile\okky\okkyRookie.csv")
+csvRead = pd.read_csv(r"D:\pythonCrawling\data\crawlingFile\okky\okkyJobSeeker03.csv")
 
-print(csvRead['postReplyLists'].apply(json.dumps))
-# csvRead['postReplyLists'] = csvRead['postReplyLists'].apply(json.dumps)
-# csvRead.to_csv(r"D:\pythonCrawling\data\crawlingFile\okky\okkyRookie01.csv",encoding ='utf8',index = False)
+import sys
+import os
+# 프로젝트 루트 경로를 sys.path에 추가
+sys.path.append(os.path.abspath("D:\pythonCrawling"))
+
+# 파이썬에서 다른 .py 파일에 정의된 메서드나 사용하려면 import를 활용
+import dataPreProcessing.method.dataMethod01 as dm
+# print(csvRead['postReplyLists'].apply(json.loads))
+
+data = csvRead['postReplyLists'].apply(json.loads)
+# print(dm.timeConvert(data[0][0]['createAt']))
+for i in range(len(data)):
+    for j in range(len(data[i])):
+        data[i][j]['createAt'] = dm.timeConvert(data[i][j]['createAt'])
+
+# print(data[0])
+# print(data[9])
+csvRead['postReplyLists'] = data.apply(json.dumps)
+csvRead['createAt'] = csvRead['createAt'].apply(dm.timeConvert)
+csvRead['viewCount'] = csvRead['viewCount'].apply(dm.convert_k_to_numbers)
+
+csvRead.to_csv(r"D:\pythonCrawling\data\crawlingFile\okky\okkyRookie03.csv",encoding ='utf8',index = False)

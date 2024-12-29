@@ -10,6 +10,8 @@ import re
 def timeConvert(str):
     if "일 전" in str:
         return str.replace("일 전", "")
+    elif "일전" in str:
+        return str.replace("일전", "")
     elif "시간 전" in str:
         str1 = str.replace("시간 전", "")
         return str1.replace("약 ", "")

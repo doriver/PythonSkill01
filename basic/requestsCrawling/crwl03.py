@@ -15,7 +15,7 @@ if response.status_code == 200:
     # <div id="top"> 내부의 <a> 태그 선택
     a_tags = soup.select("#top .gnb_bar nav ul.gnb_list a")  # 계층적으로 <a> 태그 선택
 
-    print(a_tags) # 
+    # print(a_tags) # 
 
     # <a> 태그의 텍스트 추출
     links_text = [a.get_text(strip=True) for a in a_tags] 

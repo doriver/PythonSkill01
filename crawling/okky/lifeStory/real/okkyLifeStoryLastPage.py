@@ -112,3 +112,6 @@ for i in range(15):
 df = pd.DataFrame(lines)
 df.to_csv(r"D:\pythonCode01\data\crawlingFile\realData\okky\okkyLifeStoryLastPage.csv",encoding ='utf8',index = False)
 
+# JSON 문자열로 변환
+# json_string = json.dumps(lines, ensure_ascii=False, indent=4)
+# print(json_string)

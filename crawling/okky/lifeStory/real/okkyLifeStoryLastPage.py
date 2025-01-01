@@ -32,7 +32,7 @@ for i in range(15):
         ### 글 작성자 부분
         writerSection = postView.find_element(By.XPATH, './div[1]/div[1]')
         # 작성자
-        writer = writerSection.find_element(By.XPATH, './div/div').text
+        writer = writerSection.find_element(By.XPATH, './div/*[1]').text
         # 작성 시간 부분
         # createdAtSection = writerSection.find_elements(By.XPATH, './div/div[2]/span')
         # 조회수
@@ -73,7 +73,7 @@ for i in range(15):
             replyWriter = replyNameCreate.find_element(By.XPATH, './*[1]').text # a태그, div태그 상황에 따라 나옴
             # 작성 시간
             # replyCreate = replyNameCreate.find_element(By.XPATH, './div/a').text
-            print(replyWriter)
+            # print(replyWriter)
 
             ### 댓글 본문 부분
             replyContentSection = reply.find_elements(By.XPATH, './div')[1]

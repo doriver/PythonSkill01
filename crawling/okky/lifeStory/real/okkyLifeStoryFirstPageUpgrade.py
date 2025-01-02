@@ -106,4 +106,4 @@ for i in range(len(urlCsv['postUrls'])):
 
 # csv파일로 저장
 df = pd.DataFrame(lines)
-df.to_csv(r"D:\pythonCode01\data\crawlingFile\realData\okky\okkyLifeStoryFirstPageUp487(700).csv",encoding ='utf8',index = False)
+df.to_csv(r"D:\pythonCode01\data\crawlingFile\realData\okky\okkyLifeStoryFirstPageUp5002.csv",encoding ='utf8',index = False)

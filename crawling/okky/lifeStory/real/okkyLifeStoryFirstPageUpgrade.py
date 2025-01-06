@@ -7,21 +7,28 @@ import json
 import requests
 from bs4 import BeautifulSoup
 
+# 1.7k > 1700변환
+def convert_k_to_numbers(num):
+    if 'k' in num.lower(): # k있으면 조작해서 반환
+        number = float(num.lower().replace('k', ''))
+        return int(number * 1000)
+    else:
+        return int(num) # k없으면 그냥 반환
 
-import sys
-import os
-# 프로젝트 루트 경로를 sys.path에 추가
-# sys.path.append(os.path.abspath("D:\pythonCrawling"))
-sys.path.append(os.path.abspath("D:\pythonCode01"))
+# 500글자 까지만 허용
+def textLengthLimit(text : str) -> str:
+    if len(text) > 500:
+        return text[0:500] + " ..."
+    else:
+        return text
 
-# 파이썬에서 다른 .py 파일에 정의된 메서드나 사용하려면 import를 활용
-import dataPreProcessing.method.dataMethod01 as dm
 
 driver = webdriver.Chrome()
 
 urlCsv = pd.read_csv(r"D:\pythonCode01\crawling\okky\lifeStory\real\okkyLifeStoryPostUrl5002.csv")
 # urlCsv = pd.read_csv(r"D:\pythonCode01\crawling\okky\lifeStory\real\okkyLifeStoryPostUrl.csv")
-lines = [] # 여기에 데이터들 넣을꺼 
+linesMs = [] # 여기에 데이터들 넣을꺼 
+linesEs = []
 
 for i in range(len(urlCsv['postUrls'])):
     currentUrl = urlCsv['postUrls'][i]
@@ -39,7 +46,7 @@ for i in range(len(urlCsv['postUrls'])):
         writer = writerSection.find_element(By.XPATH, './div/*[1]').text
         # 조회수
         _viewCount = writerSection.find_element(By.XPATH, './div/*[last()]/div[last()]').text
-        viewCount = dm.convert_k_to_numbers(_viewCount)
+        viewCount = convert_k_to_numbers(_viewCount)
 
         ### 글 부분
         # 글 제목
@@ -47,8 +54,8 @@ for i in range(len(urlCsv['postUrls'])):
         # 내용, 이미지
         contentBox = postView.find_element(By.XPATH, './div[3]/div/div/div')
         # 글 내용 
-        _content = contentBox.text
-        content = dm.textLengthLimit(_content)
+        contentEs = contentBox.text
+        contentMs = textLengthLimit(contentEs)
         # 글 이미지
         img = 0
         try:
@@ -86,7 +93,7 @@ for i in range(len(urlCsv['postUrls'])):
             replyContentSection = reply.find_elements(By.XPATH, './div')[1]
             try:
                 _replyText = replyContentSection.find_element(By.CSS_SELECTOR, 'div.tiptap.ProseMirror').text
-                replyText = dm.textLengthLimit(_replyText)
+                replyText = textLengthLimit(_replyText)
             except:
                 replyText = replyContentSection.find_element(By.XPATH, './div').text
 
@@ -94,16 +101,25 @@ for i in range(len(urlCsv['postUrls'])):
                 {"replyWriter": replyWriter, "replyText": replyText}
             )
 
-        lines.append({
-                    "desc": 2,"writer": writer, "title": title,  "createdAt": createdAt, 
-                    "content": content, "imgSrc": img, "viewCount": viewCount, "likeCount": likeCount,
+        linesMs.append({
+                    "desc": 2, "writer": writer, "title": title, "createdAt": createdAt, 
+                    "content": contentMs, "imgSrc": img, "viewCount": viewCount, "likeCount": likeCount,
                     "postReplyLists": json.dumps(postReplyLists) # 
+                })
+        linesEs.append({
+                    "desc": 2, "writer": writer, "title": title, "createdAt": createdAt, 
+                    "content": contentEs, "imgSrc": img, "viewCount": viewCount, "likeCount": likeCount
                 })
     except:
         continue
 
 
-
 # csv파일로 저장
-df = pd.DataFrame(lines)
-df.to_csv(r"D:\pythonCode01\data\crawlingFile\realData\okky\okkyLifeStoryFirstPageUp5002.csv",encoding ='utf8',index = False)
+dfMs = pd.DataFrame(linesMs)
+dfMs.to_csv(r"D:\pythonCode01\data\crawlingFile\realData\okky\okkyLifeStoryFirstPageUp5002Ms.csv",encoding ='utf8',index = False)
+
+dfEs = pd.DataFrame(linesEs)
+dfEs.to_csv(r"D:\pythonCode01\data\crawlingFile\realData\okky\okkyLifeStoryFirstPageUp5002Es.csv",encoding ='utf8',index = False)
+
+
+

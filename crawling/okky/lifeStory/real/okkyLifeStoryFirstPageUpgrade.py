@@ -25,12 +25,11 @@ def textLengthLimit(text : str) -> str:
 
 driver = webdriver.Chrome()
 
-urlCsv = pd.read_csv(r"D:\pythonCode01\crawling\okky\lifeStory\real\okkyLifeStoryPostUrl5002.csv")
+urlCsv = pd.read_csv(r"D:\pythonCode01\crawling\okky\lifeStory\real\okkyLifeStoryPostUrl500_4.csv")
 # urlCsv = pd.read_csv(r"D:\pythonCode01\crawling\okky\lifeStory\real\okkyLifeStoryPostUrl.csv")
-linesMs = [] # 여기에 데이터들 넣을꺼 
 linesEs = []
 
-for i in range(len(urlCsv['postUrls'])):
+for i in range(len(urlCsv['postUrls'])): # len(urlCsv['postUrls'])
     currentUrl = urlCsv['postUrls'][i]
     driver.get(currentUrl)
     print(f"    =====    =====  count : {i}   ======   ======")
@@ -55,7 +54,6 @@ for i in range(len(urlCsv['postUrls'])):
         contentBox = postView.find_element(By.XPATH, './div[3]/div/div/div')
         # 글 내용 
         contentEs = contentBox.text
-        contentMs = textLengthLimit(contentEs)
         # 글 이미지
         img = 0
         try:
@@ -95,31 +93,25 @@ for i in range(len(urlCsv['postUrls'])):
                 _replyText = replyContentSection.find_element(By.CSS_SELECTOR, 'div.tiptap.ProseMirror').text
                 replyText = textLengthLimit(_replyText)
             except:
-                replyText = replyContentSection.find_element(By.XPATH, './div').text
+                _replyText = replyContentSection.find_element(By.XPATH, './div').text
+                replyText = textLengthLimit(_replyText)
 
             postReplyLists.append(
                 {"replyWriter": replyWriter, "replyText": replyText}
             )
 
-        linesMs.append({
-                    "desc": 2, "writer": writer, "title": title, "createdAt": createdAt, 
-                    "content": contentMs, "imgSrc": img, "viewCount": viewCount, "likeCount": likeCount,
-                    "postReplyLists": json.dumps(postReplyLists) # 
-                })
         linesEs.append({
                     "desc": 2, "writer": writer, "title": title, "createdAt": createdAt, 
-                    "content": contentEs, "imgSrc": img, "viewCount": viewCount, "likeCount": likeCount
+                    "content": contentEs, "imgSrc": img, "viewCount": viewCount, "likeCount": likeCount,
+                    "postReplyLists": json.dumps(postReplyLists) # 
                 })
     except:
         continue
 
 
 # csv파일로 저장
-dfMs = pd.DataFrame(linesMs)
-dfMs.to_csv(r"D:\pythonCode01\data\crawlingFile\realData\okky\okkyLifeStoryFirstPageUp5002Ms.csv",encoding ='utf8',index = False)
-
 dfEs = pd.DataFrame(linesEs)
-dfEs.to_csv(r"D:\pythonCode01\data\crawlingFile\realData\okky\okkyLifeStoryFirstPageUp5002Es.csv",encoding ='utf8',index = False)
+dfEs.to_csv(r"D:\pythonCode01\data\crawlingFile\realData\okky\okkyLifeStoryFirstPageUp500Es4.csv",encoding ='utf8',index = False)
 
 
 

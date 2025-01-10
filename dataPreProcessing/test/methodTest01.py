@@ -9,7 +9,4 @@ import dataPreProcessing.method.dataMethod01 as dm
 ex = "1.7k"
 print(dm.convert_k_to_numbers(ex)) # 1700
 
-print(dm.timeConvert("약 22시간 전")) # 22
-print(dm.timeConvert("5일 전")) # 5
-
 print()

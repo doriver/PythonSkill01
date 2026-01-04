@@ -1,0 +1,9 @@
+** DataFrame에서 행(row) 또는 열(column)을 추출할 때의 결과
+1개의 행이나 열만 뽑으면 Series, 여러 행이나 열을 뽑으면 DataFrame이 됨
+행과 열을 동시에 선택하면 항상 (부분)DataFrame
+단일 원소를 선택하면 스칼라 값(기본 데이터형)이 반환
+type( 대상 ) 으로 타입 확인 가능
+
+** Series 
+Pandas의 1차원 데이터 구조로, 인덱스(index)와 값(value)으로 구성된 배열
+Series는 데이터 분석에서 기본적인 데이터 조작을 위한 중요한 요소로, Pandas의 기반이 되는 구조
